@@ -1,0 +1,12 @@
+imports
+
+
+from tkinter import filedialog, simpledialog, messagebox
+import webbrowser
+import cv2
+from threading import Thread
+from pyzbar.pyzbar import decode
+from PIL import Image
+import tkinter as tk
+import data
+import customtkinter as ctk
