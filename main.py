@@ -1,31 +1,34 @@
-import tkinter as tk
 from tkinter import filedialog, simpledialog, messagebox
 import webbrowser
 import cv2
 from threading import Thread
 from pyzbar.pyzbar import decode
 from PIL import Image
-
+import tkinter as tk
 import data
+import customtkinter as ctk
 
-window = tk.Tk()
+window = ctk.CTk()
 window.title('BarcodeSearcher - Botnen')
 window.geometry('500x300')
+window.iconbitmap('C:\Users\hansc\Downloads\BOTnen.ico')
 
 def show_saved_codes():
+    print('Show codes button clicked...')
     codes = data.load_data()
-    codes_window = tk.Toplevel(window)
+    codes_window = ctk.CTkToplevel(window)
     codes_window.title('Saved Codes')
 
-    scrollbar = tk.Scrollbar(codes_window)
-    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    scrollbar = ctk.CTkScrollbar(codes_window)
+    scrollbar.pack(side=ctk.RIGHT, fill=ctk.Y)
 
     listbox = tk.Listbox(codes_window, yscrollcommand=scrollbar.set)
-    for code in codes:
-        listbox.insert(tk.END, code.strip())  
-    listbox.pack(side=tk.LEFT, fill=tk.BOTH)
 
-    scrollbar.config(command=listbox.yview)
+    for code in codes:
+        listbox.insert(ctk.END, code.strip())  
+    listbox.pack(side=ctk.LEFT, fill=ctk.BOTH)
+
+    scrollbar.configure(command=listbox.yview)
 
 def upload_image():
     print('upload-button clicked...')
@@ -42,7 +45,7 @@ def upload_image():
     barcode_val = decode_barcode(pil_image)
     if barcode_val:
         print(f'Barcode found: {barcode_val}')
-        skrivefelt.delete(0, tk.END)
+        skrivefelt.delete(0, ctk.END)
         skrivefelt.insert(0, barcode_val)
         data.save_data(barcode_val)
         search_in_browser(barcode_val)
@@ -78,7 +81,7 @@ def camera_ON():
                 barcode_value = decode_barcode(pil_image)
 
                 if barcode_value:
-                    skrivefelt.delete(0, tk.END)
+                    skrivefelt.delete(0, ctk.END)
                     skrivefelt.insert(0, barcode_value)
                     data.save_data(barcode_value)
                     enter()
@@ -104,25 +107,25 @@ def enter():
     else:
         print('Entry field is empty. No search performed.')
 
-frame_buttons = tk.Frame(window)
+frame_buttons = ctk.CTkFrame(window)  
 frame_buttons.pack()
 
-button_upload = tk.Button(frame_buttons, text='Upload', command=upload_image)
-button_upload.pack(side=tk.LEFT, padx=5, pady=5)
+button_upload = ctk.CTkButton(frame_buttons, text='Upload', command=upload_image,fg_color='aquamarine4')  
+button_upload.pack(side=ctk.LEFT, padx=5, pady=5)
 
-button_scan = tk.Button(frame_buttons, text='Scan', command=scan)
-button_scan.pack(side=tk.LEFT, padx=5, pady=5)
+button_scan = ctk.CTkButton(frame_buttons, text='Scan', command=scan, fg_color='aquamarine4') 
+button_scan.pack(side=ctk.LEFT, padx=5, pady=5)
 
-button_show_codes = tk.Button(frame_buttons, text='Show Saved Codes', command=show_saved_codes)
-button_show_codes.pack(side=tk.LEFT, padx=5, pady=5)
+button_show_codes = ctk.CTkButton(frame_buttons, text='Show Saved Codes', command=show_saved_codes, fg_color='aquamarine4')  
+button_show_codes.pack(side=ctk.LEFT, padx=5, pady=5)
 
-frame_entry = tk.Frame(window)
+frame_entry = ctk.CTkFrame(window) 
 frame_entry.pack(pady=10)
 
-skrivefelt = tk.Entry(frame_entry, width=50)
-skrivefelt.pack(side=tk.LEFT, padx=(5, 0))
+skrivefelt = ctk.CTkEntry(frame_entry, width=200) 
+skrivefelt.pack(side=ctk.LEFT, padx=(5, 0))
 
-button_enter = tk.Button(frame_entry, text='Enter', command=enter)
-button_enter.pack(side=tk.LEFT, padx=(5, 0))
+button_enter = ctk.CTkButton(frame_entry, text='Enter', command=enter, fg_color='aquamarine4')  
+button_enter.pack(pady=10)
 
 window.mainloop()
