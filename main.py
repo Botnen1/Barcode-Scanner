@@ -11,7 +11,6 @@ import customtkinter as ctk
 window = ctk.CTk()
 window.title('BarcodeSearcher - Botnen')
 window.geometry('500x300')
-window.iconbitmap('C:\Users\hansc\Downloads\BOTnen.ico')
 
 def show_saved_codes():
     print('Show codes button clicked...')
